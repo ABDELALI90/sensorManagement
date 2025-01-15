@@ -26,7 +26,11 @@ namespace SensorManagement.API.Controllers
             _mediator = mediator;
             _cacheService = cacheService;
         }
-
+        /// <summary>
+        /// Creates a new sensor.
+        /// </summary>
+        /// <param name="sensor">The sensor object to create.</param>
+        /// <returns>A newly created sensor.</returns>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSensorCommand command)
         {
@@ -42,7 +46,11 @@ namespace SensorManagement.API.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id }, null);
         }
-
+        /// <summary>
+        /// Gets a sensor by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the sensor.</param>
+        /// <returns>A sensor object if found, or a 404 if not found.</returns>
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
@@ -60,7 +68,12 @@ namespace SensorManagement.API.Controllers
 
             return Ok(sensor);
         }
-
+        /// <summary>
+        /// Updates a sensor.
+        /// </summary>
+        /// <param name="id">The ID of the sensor.</param>
+        /// <param name="sensor">The sensor object with updated data.</param>
+        /// <returns>Updated sensor details.</returns>
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateSensorCommand command)
         {
@@ -78,7 +91,11 @@ namespace SensorManagement.API.Controllers
 
             return NoContent();
         }
-
+        /// <summary>
+        /// Deletes a sensor by its ID.
+        /// </summary>
+        /// <param name="id">The ID of the sensor.</param>
+        /// <returns>Deleted sensor details.</returns>
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {

@@ -30,5 +30,9 @@
     <ProjectReference Include="..\SensorManagement.Domain\SensorManagement.Domain.csproj" />
     <ProjectReference Include="..\SensorManagement.ErrorHandlingLibrary\SensorManagement.ErrorHandlingLibrary.csproj" />
   </ItemGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>1591</NoWarn>
+	</PropertyGroup>
 
 </Project>

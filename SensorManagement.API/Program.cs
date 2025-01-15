@@ -148,24 +148,25 @@ builder.Services.AddSwaggerGen(options =>
 {
     var provider = builder.Services.BuildServiceProvider()
         .GetRequiredService<IApiVersionDescriptionProvider>();
-    //options.SwaggerDoc("v1", new OpenApiInfo
-    //{
-    //    Version = "v1",
-    //    Title = "Sensor Management API",
-    //    Description = "API for managing sensors",
-    //    TermsOfService = new Uri("https://example.com/terms"),
-    //    Contact = new OpenApiContact
-    //    {
-    //        Name = "Yahya Abdelali",
-    //        Email = "contact@example.com",
-    //        Url = new Uri("https://example.com")
-    //    },
-    //    License = new OpenApiLicense
-    //    {
-    //        Name = "MIT License",
-    //        Url = new Uri("https://opensource.org/licenses/MIT")
-    //    }
-    //});
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Sensor Management API",
+        Description = "API for managing sensors",
+        TermsOfService = new Uri("https://example.com/terms"),
+        Contact = new OpenApiContact
+        {
+            Name = "Yahya Abdelali",
+            Email = "yahyabdelali@gmail.com",
+            Url = new Uri("https://example.com")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "MIT License",
+            Url = new Uri("https://opensource.org/licenses/MIT")
+        }
+    
+    });
 
     // Add security definitions for JWT
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -191,15 +192,12 @@ builder.Services.AddSwaggerGen(options =>
             },
             new string[] {}
         }
+
     });
-    foreach (var description in provider.ApiVersionDescriptions)
-    {
-        options.SwaggerDoc(description.GroupName, new Microsoft.OpenApi.Models.OpenApiInfo
-        {
-            Title = $"Sensor Management API {description.GroupName}",
-            Version = description.ApiVersion.ToString()
-        });
-    }
+
+    // Include XML comments
+    var xmlFile = Path.Combine(AppContext.BaseDirectory, "SensorManagement.API.xml");
+    options.IncludeXmlComments(xmlFile);
 });
 
 // Add CORS if required (optional)
