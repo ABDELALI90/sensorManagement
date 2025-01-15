@@ -1,6 +1,0 @@
-﻿namespace SensorManagement.Shared;
-
-public class Class1
-{
-
-}
