@@ -17,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Polly;
 using StackExchange.Redis;
 using SensorManagement.ErrorHandlingLibrary;
+using SensorManagement.Application.Services;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -116,6 +117,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+
+
         };
     });
 
@@ -139,6 +142,7 @@ builder.Services.AddVersionedApiExplorer(options =>
     options.GroupNameFormat = "'v'VVV"; // Format API versions as "v1", "v2", etc.
     options.SubstituteApiVersionInUrl = true;
 });
+builder.Services.AddScoped<JwtTokenService>();
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -164,28 +168,28 @@ builder.Services.AddSwaggerGen(options =>
     //});
 
     // Add security definitions for JWT
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
-        In = ParameterLocation.Header,
-        Description = "Please enter your JWT token with Bearer scheme (e.g., Bearer <token>)",
         Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Enter 'Bearer' [space] and your token in the text input below."
     });
-
     // Add security requirement for all endpoints
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
     {
         {
-            new OpenApiSecurityScheme
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
             {
-                Reference = new OpenApiReference
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
                 {
-                    Type = ReferenceType.SecurityScheme,
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
                     Id = "Bearer"
                 }
             },
-            new List<string>()
+            new string[] {}
         }
     });
     foreach (var description in provider.ApiVersionDescriptions)

@@ -7,9 +7,11 @@ using SensorManagement.Application.Queries.GetSensor;
 using SensorManagement.Caching;
 using SensorManagement.Domain.Entities;
 using SensorManagement.ErrorHandlingLibrary;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SensorManagement.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
